@@ -53,30 +53,30 @@ Future<void> main() async {
       title: 'Dog Park',
       home: loggedUser == null
           ? const LoginPage()
-          : UserApp(loggedUser: loggedUser),
+          : UserApp(),
       theme: defaultTheme,
       getPages: AppPages.pages,
     ),
   );
   await dotenv.load(fileName: ".env");
-  runApp(
-    MaterialApp(
-      home: const Perx(),
-      theme: ThemeData(
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-            TargetPlatform.values,
-            value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
-          ),
-        ),
-      ),
-    ),
-  );
+  // runApp(
+  //   MaterialApp(
+  //     home: const Perx(),
+  //     theme: ThemeData(
+  //       pageTransitionsTheme: PageTransitionsTheme(
+  //         builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+  //           TargetPlatform.values,
+  //           value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+  //         ),
+  //       ),
+  //     ),
+  //   ),
+  // );
 }
 
 class UserApp extends StatefulWidget {
-  const UserApp({required this.loggedUser, Key? key}) : super(key: key);
-  final String loggedUser;
+  const UserApp({super.key});
+
 
   // This widget is the root of your application.
   @override
@@ -86,35 +86,10 @@ class UserApp extends StatefulWidget {
 class _UserAppState extends State<UserApp> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Networking.getInstance().getJSON(
-          'PetsPark/hs/DogsPark/V1/Metadata?phonenumber=${widget.loggedUser}'),
-      //sampleData(),
-      builder: (context, snapchat) {
-        if (snapchat.hasData) {
-          dynamic value = snapchat.data;
-          DataBucket.getInstance()
-              .setMetaData(value['Metadata'], widget.loggedUser);
-          var user = DataBucket.getInstance().getCustomerList();
-          //check amity user
-          var userAmity =
-              UserRepository().getUser(user.phonenumber).then((value) {
-            print(value);
-            if (value.displayName != user.fullname) {
-              // value.displayName = user.fullname;
-              value.update().displayName(user.fullname).update().then((val) {
-                print("Display name updated: " + val.displayName!);
-              });
-            }
-          });
-
-          //re render page switch
-          // Controller.getInstance().handler();
-          return const BottomBar();
-        } else {
-          return const LoadingAnimation();
-        }
-      },
+    return Scaffold(
+      body: Center(
+        child: Text('Login Success'),
+      ),
     );
   }
 }

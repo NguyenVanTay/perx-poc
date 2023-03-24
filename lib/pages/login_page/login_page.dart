@@ -194,12 +194,16 @@ class _LoginPageState extends State<LoginPage> {
         print(UserController.getInstance().accessToken);
         var user = await UserRepository().getUser(_phoneNumberController.text);
         print("User Amity: " + user.toString());
+
+
+        var userAmity = amityLoginController.currentamityUser;
+
+
         // print(await DataBucket.getInstance().getCustomerList());
         // ignore: use_build_context_synchronously
         navigateTo(
             context,
             UserApp(
-              loggedUser: _phoneNumberController.text,
             ));
       }
     }
