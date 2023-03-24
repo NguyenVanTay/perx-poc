@@ -42,6 +42,7 @@ Future<dynamic> sampleData() async {
 }
 
 Future<void> main() async {
+  var test;
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedUser = prefs.getString('loggedUser');
@@ -76,6 +77,7 @@ Future<void> main() async {
 class UserApp extends StatefulWidget {
   const UserApp({required this.loggedUser, Key? key}) : super(key: key);
   final String loggedUser;
+
   // This widget is the root of your application.
   @override
   State<UserApp> createState() => _UserAppState();
