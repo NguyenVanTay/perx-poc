@@ -16,6 +16,8 @@ import '../../utils/utils.dart';
 import '../../widgets/customTextField.dart';
 import '../signupUser_page/signup_user_page.dart';
 import '../../widgets/customTextField_Obscure.dart';
+import 'package:clevertap_plugin/clevertap_plugin.dart';
+import 'package:intl/intl.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -195,16 +197,33 @@ class _LoginPageState extends State<LoginPage> {
         var user = await UserRepository().getUser(_phoneNumberController.text);
         print("User Amity: " + user.toString());
 
-
         var userAmity = amityLoginController.currentamityUser;
 
+        var profile = {
+          'Name': userAmity!.displayName.toString(),
+          'Email': 'perxpoc@gmail.com',
+          'Identity': userAmity.userId.toString(),
+          'Phone': '+0123456789',
+          'Gender': 'Male',
+          'DOB': '06-06-2000',
+          "MSG-push": true,
+          "MSG-whatsapp": true,
+          "MSG-sms": true,
+          "MSG-email": true
+        };
+        CleverTapPlugin.onUserLogin(profile);
+
+        var eventData = {
+          // Key:    Value
+          'event': 'Android Login',
+          'Device': 'Android',
+          'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
+        };
+        CleverTapPlugin.recordEvent("Amity Login", eventData);
 
         // print(await DataBucket.getInstance().getCustomerList());
         // ignore: use_build_context_synchronously
-        navigateTo(
-            context,
-            UserApp(
-            ));
+        navigateTo(context, UserApp());
       }
     }
   }
