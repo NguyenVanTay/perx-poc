@@ -58,19 +58,19 @@ Future<void> main() async {
     ),
   );
   await dotenv.load(fileName: ".env");
-  // runApp(
-  //   MaterialApp(
-  //     home: const Perx(),
-  //     theme: ThemeData(
-  //       pageTransitionsTheme: PageTransitionsTheme(
-  //         builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-  //           TargetPlatform.values,
-  //           value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
-  //         ),
-  //       ),
-  //     ),
-  //   ),
-  // );
+  runApp(
+    MaterialApp(
+      home: const Perx(),
+      theme: ThemeData(
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+            TargetPlatform.values,
+            value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class UserApp extends StatefulWidget {
