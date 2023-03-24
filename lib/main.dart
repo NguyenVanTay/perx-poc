@@ -42,35 +42,35 @@ Future<dynamic> sampleData() async {
 }
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // var loggedUser = prefs.getString('loggedUser');
-  // await setUpAmity();
-  // runApp(
-  //   GetMaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     title: 'Dog Park',
-  //     home: loggedUser == null
-  //         ? const LoginPage()
-  //         : UserApp(loggedUser: loggedUser),
-  //     theme: defaultTheme,
-  //     getPages: AppPages.pages,
-  //   ),
-  // );
-  await dotenv.load(fileName: ".env");
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var loggedUser = prefs.getString('loggedUser');
+  await setUpAmity();
   runApp(
-    MaterialApp(
-      home: const Perx(),
-      theme: ThemeData(
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-            TargetPlatform.values,
-            value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
-          ),
-        ),
-      ),
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Dog Park',
+      home: loggedUser == null
+          ? const LoginPage()
+          : UserApp(loggedUser: loggedUser),
+      theme: defaultTheme,
+      getPages: AppPages.pages,
     ),
   );
+  await dotenv.load(fileName: ".env");
+  // runApp(
+  //   MaterialApp(
+  //     home: const Perx(),
+  //     theme: ThemeData(
+  //       pageTransitionsTheme: PageTransitionsTheme(
+  //         builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+  //           TargetPlatform.values,
+  //           value: (dynamic _) => const CupertinoPageTransitionsBuilder(),
+  //         ),
+  //       ),
+  //     ),
+  //   ),
+  // );
 }
 
 class UserApp extends StatefulWidget {
