@@ -200,7 +200,7 @@ class ImagePost extends StatelessWidget {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).push(_goToImageViewer(url));
+                // Navigator.of(context).push(_goToImageViewer(url));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -227,23 +227,23 @@ class ImagePost extends StatelessWidget {
     );
   }
 
-  Route _goToImageViewer(String url) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => ImageViewer(
-          imageURLs: imageURLs, initialIndex: imageURLs.indexOf(url)),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+  // Route _goToImageViewer(String url) {
+    // return PageRouteBuilder(
+    //   pageBuilder: (context, animation, secondaryAnimation) => ImageViewer(
+    //       imageURLs: imageURLs, initialIndex: imageURLs.indexOf(url)),
+    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //     const begin = Offset(0.0, 1.0);
+    //     const end = Offset.zero;
+    //     const curve = Curves.ease;
+    //
+    //     var tween =
+    //         Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    //
+    //     return SlideTransition(
+    //       position: animation.drive(tween),
+    //       child: child,
+    //     );
+    //   },
+    // );
+  // }
 }

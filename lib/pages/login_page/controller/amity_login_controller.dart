@@ -13,7 +13,7 @@ class AmityLoginController extends GetxController {
 
       print("login with $userID");
 
-       await AmityCoreClient.login(userID).submit().then((value) async {
+       await AmityCoreClient.login(userID).displayName("abc").submit().then((value) async {
         print("success");
 
         isProcessing.value = false;

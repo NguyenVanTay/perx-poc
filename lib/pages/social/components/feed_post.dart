@@ -8,7 +8,7 @@ import 'package:dogs_park/theme/colors.dart';
 import 'package:dogs_park/theme/dimens.dart';
 import 'package:dogs_park/theme/images.dart';
 import 'package:dogs_park/widgets/text_style.dart';
-import 'package:extended_image/extended_image.dart';
+// import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

@@ -195,13 +195,13 @@ class _LoginPageState extends State<LoginPage> {
 
         print(UserController.getInstance().accessToken);
         var user = await UserRepository().getUser(_phoneNumberController.text);
-        print("User Amity: " + user.toString());
+        print("User Amity: $user");
 
         var userAmity = amityLoginController.currentamityUser;
 
         var profile = {
           'Name': userAmity!.displayName.toString(),
-          'Email': 'perxpoc@gmail.com',
+          // 'Email': 'perxpoc@gmail.com',
           'Identity': userAmity.userId.toString(),
           'Phone': '+0123456789',
           'Gender': 'Male',
@@ -215,15 +215,15 @@ class _LoginPageState extends State<LoginPage> {
 
         var eventData = {
           // Key:    Value
-          'event': 'Android Login',
-          'Device': 'Android',
+          'event': 'Flutter Login',
+          // 'Device': 'Android',
           'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
         };
         CleverTapPlugin.recordEvent("Amity Login", eventData);
 
         // print(await DataBucket.getInstance().getCustomerList());
         // ignore: use_build_context_synchronously
-        navigateTo(context, UserApp());
+        navigateTo(context, const UserApp());
       }
     }
   }
