@@ -1,5 +1,6 @@
 import 'package:amity_sdk/amity_sdk.dart';
 import 'package:dogs_park/pages/login_page/controller/amity_login_controller.dart';
+import 'package:dogs_park/pages/login_page/controller/perx_controller.dart';
 import 'package:dogs_park/pages/login_page/controller/user_controller.dart';
 import 'package:dogs_park/pages/social/controller/channel_controller.dart';
 import 'package:dogs_park/theme/colors.dart';
@@ -28,11 +29,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _remember = false.obs;
-
+  PerxController perxController = PerxController();
+  AmityLoginController amityLoginController = AmityLoginController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    CleverTapPlugin.enableDeviceNetworkInfoReporting(true);
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -188,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('loggedUser', _phoneNumberController.text);
         }
-        AmityLoginController amityLoginController = AmityLoginController();
+
         await amityLoginController.login(_phoneNumberController.text);
         await UserController.getInstance().initAccessToken();
         await ChannelController.initial();
@@ -198,14 +202,16 @@ class _LoginPageState extends State<LoginPage> {
         print("User Amity: $user");
 
         var userAmity = amityLoginController.currentamityUser;
+        //  PerxController perxController = PerxController();
 
+        var perxuser = perxController.createUser(userAmity!.userId.toString());
         var profile = {
           'Name': userAmity!.displayName.toString(),
           // 'Email': 'perxpoc@gmail.com',
           'Identity': userAmity.userId.toString(),
-          'Phone': '+0123456789',
+          'Phone': '+9876543210',
           'Gender': 'Male',
-          'DOB': '06-06-2000',
+          'DOB': '06-06-1999',
           "MSG-push": true,
           "MSG-whatsapp": true,
           "MSG-sms": true,
@@ -220,6 +226,11 @@ class _LoginPageState extends State<LoginPage> {
           'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
         };
         CleverTapPlugin.recordEvent("Amity Login", eventData);
+        CleverTapPlugin.createNotificationChannel(
+            "10", "text notification", "notification test cleverTap.", 3, true);
+        await perxController.getApplicationToken();
+
+        perxController.isIdentifierExist(userAmity!.userId.toString());
 
         // print(await DataBucket.getInstance().getCustomerList());
         // ignore: use_build_context_synchronously

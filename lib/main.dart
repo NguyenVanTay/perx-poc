@@ -51,9 +51,7 @@ Future<void> main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dog Park',
-      home: loggedUser == null
-          ? const LoginPage()
-          : UserApp(),
+      home: loggedUser == null ? const LoginPage() : UserApp(),
       theme: defaultTheme,
       getPages: AppPages.pages,
     ),
@@ -77,7 +75,6 @@ Future<void> main() async {
 class UserApp extends StatefulWidget {
   // String
   const UserApp({super.key});
-
 
   // This widget is the root of your application.
   @override
