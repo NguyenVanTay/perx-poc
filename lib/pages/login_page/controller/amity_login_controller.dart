@@ -1,24 +1,27 @@
 import 'package:amity_sdk/amity_sdk.dart';
 import 'package:get/get.dart';
-
 import '../../social_pages/components/alert_dialog.dart';
 
 class AmityLoginController extends GetxController {
-  AmityUser? currentamityUser;
+
+  AmityUser? currentAmityUser;
   RxBool isProcessing = false.obs;
 
-  Future<void> login(String userID) async {
+
+
+
+  Future<void> login(String userID, String name) async {
     if (!isProcessing.value) {
       isProcessing.value = true;
 
       print("login with $userID");
 
-       await AmityCoreClient.login(userID).displayName("abc").submit().then((value) async {
+       await AmityCoreClient.login(userID).displayName(name).submit().then((value) async {
         print("success");
 
         isProcessing.value = false;
         getUserByID(userID);
-        currentamityUser = value;
+        currentAmityUser = value;
         // notifyListeners();
       }).catchError((error, stackTrace) async {
         isProcessing.value = false;
@@ -39,11 +42,11 @@ class AmityLoginController extends GetxController {
   }
 
   Future<void> refreshCurrentUserData() async {
-    if (currentamityUser != null) {
+    if (currentAmityUser != null) {
       await AmityCoreClient.newUserRepository()
-          .getUser(currentamityUser!.userId!)
+          .getUser(currentAmityUser!.userId!)
           .then((user) {
-        currentamityUser = user;
+        currentAmityUser = user;
         //TODO: update
       }).onError((error, stackTrace) async {
         print(error.toString());

@@ -10,7 +10,7 @@ class Networking {
   Networking._internal();
 
   // Need to be changed
-  var _host = 'http://118.68.218.70';
+  var _host = 'http://103.157.218.115';
   var _userName = 'Administrator';
   var _password = '';
 
@@ -27,6 +27,32 @@ class Networking {
   Networking setPassword(String password) {
     _password = password;
     return _instance;
+  }
+
+  /// Test Function
+  Future<dynamic> getUserInformation(String phoneNumber, String password) async {
+    // if (_userName == '' || _password == '' || _host == '') {
+    //   throw Exception('Networking props error!');
+    // }
+    Map body ={
+      "PhoneNumber":phoneNumber,
+      "Password":password,
+    };
+
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+
+    final response = await http.post(
+        Uri.parse(
+            '$_host/DogsPark/hs/DogsPark2/V1/User'),
+        headers: requestHeaders,body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
   }
 
   Future<dynamic> isCustomer(String user, String password) async {

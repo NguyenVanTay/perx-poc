@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amity_sdk/amity_sdk.dart';
 import 'package:dogs_park/pages/login_page/controller/amity_login_controller.dart';
 import 'package:dogs_park/pages/login_page/controller/perx_controller.dart';
@@ -193,48 +195,71 @@ class _LoginPageState extends State<LoginPage> {
           prefs.setString('loggedUser', _phoneNumberController.text);
         }
 
-        await amityLoginController.login(_phoneNumberController.text);
-        await UserController.getInstance().initAccessToken();
-        await ChannelController.initial();
+        var userInformation = await Networking.getInstance().getUserInformation(
+            _phoneNumberController.text, _passwordController.text);
 
-        print(UserController.getInstance().accessToken);
-        var user = await UserRepository().getUser(_phoneNumberController.text);
-        print("User Amity: $user");
+        userInformation = jsonDecode(userInformation);
 
-        var userAmity = amityLoginController.currentamityUser;
-        //  PerxController perxController = PerxController();
+        var userData = userInformation['Metadata'][0]['Information'];
 
-        var perxuser = perxController.createUser(userAmity!.userId.toString());
-        var profile = {
-          'Name': userAmity!.displayName.toString(),
-          // 'Email': 'perxpoc@gmail.com',
-          'Identity': userAmity.userId.toString(),
-          'Phone': '+9876543210',
-          'Gender': 'Male',
-          'DOB': '06-06-1999',
-          "MSG-push": true,
-          "MSG-whatsapp": true,
-          "MSG-sms": true,
-          "MSG-email": true
-        };
-        CleverTapPlugin.onUserLogin(profile);
+        if (userInformation == null) {
+          Get.snackbar('Alert', 'Data not found');
+        } else {
 
-        var eventData = {
-          // Key:    Value
-          'event': 'Flutter Login',
-          // 'Device': 'Android',
-          'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
-        };
-        CleverTapPlugin.recordEvent("Amity Login", eventData);
-        CleverTapPlugin.createNotificationChannel(
-            "10", "text notification", "notification test cleverTap.", 3, true);
-        await perxController.getApplicationToken();
+          await amityLoginController.login(userData['Code'],userData['Description']);
+          await UserController.getInstance().initAccessToken();
+          await ChannelController.initial();
 
-        perxController.isIdentifierExist(userAmity!.userId.toString());
+          print(UserController
+              .getInstance()
+              .accessToken);
+          var user = await UserRepository().getUser(
+              _phoneNumberController.text);
+          print("Amity Login Success with User Amity: $user");
 
-        // print(await DataBucket.getInstance().getCustomerList());
-        // ignore: use_build_context_synchronously
-        navigateTo(context, const UserApp());
+          var userAmity = amityLoginController.currentAmityUser;
+          //  PerxController perxController = PerxController();
+
+          // var perxuser = perxController.createUser(
+          //     userAmity!.userId.toString());
+
+          var profile = {
+            'Name': userAmity!.displayName.toString(),
+            // 'Email': 'perxpoc@gmail.com',
+            'Identity': userAmity.id.toString(),
+            'Phone': '+84${userAmity.userId.toString()}',
+            'Gender': 'Male',
+            'DOB': '06-06-1999',
+            "Address": userData['Address'],
+            "MSG-push": true,
+            "MSG-whatsapp": true,
+            "MSG-sms": true,
+            "MSG-email": true
+          };
+          print("AmityID And Clevertap Identity: ${userAmity.id.toString()}");
+          CleverTapPlugin.onUserLogin(profile);
+
+          var eventData = {
+            // Key:    Value
+            'event': 'Flutter Login',
+            // 'Device': 'Android',
+            'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
+          };
+          CleverTapPlugin.recordEvent("Amity Login", eventData);
+
+
+
+          CleverTapPlugin.createNotificationChannel(
+              "10", "text notification", "notification test cleverTap.", 3,
+              true);
+          await perxController.getApplicationToken();
+
+          perxController.isIdentifierExist(userAmity!.userId.toString());
+
+          // print(await DataBucket.getInstance().getCustomerList());
+          // ignore: use_build_context_synchronously
+          navigateTo(context, const UserApp());
+        }
       }
     }
   }
