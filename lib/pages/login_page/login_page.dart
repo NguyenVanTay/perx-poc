@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:amity_sdk/amity_sdk.dart';
@@ -9,6 +11,7 @@ import 'package:dogs_park/theme/colors.dart';
 import 'package:dogs_park/theme/dimens.dart';
 import 'package:dogs_park/utils/data_bucket.dart';
 import 'package:dogs_park/widgets/text_style.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -234,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
           var profile = {
             'Name': userAmity!.displayName.toString(),
             'Email': userInformation['Email'],
-            'Identity': userAmity.id.toString(),
+            'Identity': userAmity.userId.toString(),
             'Phone': '+84${userInformation['Mobile']}',
             'Gender': userInformation['Gender'] == 'Male' ? "M" : "F",
             'DOB': '06-06-1999',
@@ -244,7 +247,9 @@ class _LoginPageState extends State<LoginPage> {
             "MSG-sms": true,
             "MSG-email": true
           };
+
           print("AmityID And Clevertap Identity: ${userAmity.id.toString()}");
+
           CleverTapPlugin.onUserLogin(profile);
           CleverTapPlugin.setLocation(double.parse(userInformation['Latitude']),
               double.parse(userInformation['Longitude']));
