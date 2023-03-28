@@ -205,16 +205,14 @@ class _LoginPageState extends State<LoginPage> {
         if (userInformation == null) {
           Get.snackbar('Alert', 'Data not found');
         } else {
-
-          await amityLoginController.login(userData['Code'],userData['Description']);
+          await amityLoginController.login(
+              userData['Code'], userData['Description']);
           await UserController.getInstance().initAccessToken();
           await ChannelController.initial();
 
-          print(UserController
-              .getInstance()
-              .accessToken);
-          var user = await UserRepository().getUser(
-              _phoneNumberController.text);
+          print(UserController.getInstance().accessToken);
+          var user =
+              await UserRepository().getUser(_phoneNumberController.text);
           print("Amity Login Success with User Amity: $user");
 
           var userAmity = amityLoginController.currentAmityUser;
@@ -222,10 +220,11 @@ class _LoginPageState extends State<LoginPage> {
 
           // var perxuser = perxController.createUser(
           //     userAmity!.userId.toString());
+          var _email = '${userAmity!.userId}@gmail.com';
 
           var profile = {
             'Name': userAmity!.displayName.toString(),
-            // 'Email': 'perxpoc@gmail.com',
+            'Email': _email,
             'Identity': userAmity.id.toString(),
             'Phone': '+84${userAmity.userId.toString()}',
             'Gender': 'Male',
@@ -236,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
             "MSG-sms": true,
             "MSG-email": true
           };
-          print("AmityID And Clevertap Identity: ${userAmity.id.toString()}");
+          print("AmityID And Clevertap Identity : ${userAmity.id.toString()}");
           CleverTapPlugin.onUserLogin(profile);
 
           var eventData = {
@@ -247,14 +246,12 @@ class _LoginPageState extends State<LoginPage> {
           };
           CleverTapPlugin.recordEvent("Amity Login", eventData);
 
-
-
-          CleverTapPlugin.createNotificationChannel(
-              "10", "text notification", "notification test cleverTap.", 3,
-              true);
+          CleverTapPlugin.createNotificationChannel("10", "text notification",
+              "notification test cleverTap.", 3, true);
           await perxController.getApplicationToken();
 
-          perxController.isIdentifierExist(userAmity!.userId.toString());
+          perxController.isIdentifierExist(userAmity!.userId.toString(),
+              userData, userAmity!.id.toString(), _email);
 
           // print(await DataBucket.getInstance().getCustomerList());
           // ignore: use_build_context_synchronously
