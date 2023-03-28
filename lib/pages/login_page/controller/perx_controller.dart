@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,8 +9,8 @@ import 'package:get/get.dart';
 class PerxController extends GetxController {
   // API
   Dio dio = Dio();
-  late String userToken;
-  late String applicationToken;
+   String? userToken;
+   String? applicationToken;
 
   Future<void> getApplicationToken() async {
     String url = "${dotenv.get("PERX_HOST")}/v4/oauth/token";
@@ -31,7 +33,7 @@ class PerxController extends GetxController {
     }
   }
 
-   Future<void> isIdentifierExist(String identifier) async {
+   Future<void> isIdentifierExist(String identifier, ) async {
     String url = "${dotenv.get("PERX_HOST")}/v4/pos/user_accounts/search";
     String method = "GET";
     Map<String, String> params = {
@@ -48,26 +50,36 @@ class PerxController extends GetxController {
       );
 
       // code = 1 -> user not found
-      response.data['code'] == 1 ? createUser(identifier) : getUserToken(identifier);
+      return response.data['code'] ;
     } catch (e) {
-      if (kDebugMode) print(e);
-      createUser(identifier);
+      if (kDebugMode) print('error: $e');
+      return ;
     }
   }
 
-  Future<void> createUser(String identifier) async {
+  Future<void> createUser(String identifier,var userData) async {
     String url = "${dotenv.get("PERX_HOST")}/v4/pos/user_accounts";
     String method = "POST";
-    Map<String, String> params = {
-      "identifier": identifier,
-      "joined_at": DateTime.now().toIso8601String(),
+    Map params = {
+    "data": {
+      "first_name": userData['FirstName'],
+      "identifier": userData['Code'],
+      "last_name": userData['LastName'],
+      "personal_properties": {
+        "gender": "f",
+        "address":userData['Address'],
+        "email": userData['Email'],
+        "phone": userData['Mobile']
+      },
+    }
     };
     Map<String, String> headers = {"Authorization": "Bearer $applicationToken"};
 
     try {
       // call API
-      await dio.request(url,
-          data: params, options: Options(method: method, headers: headers));
+
+      await dio.request(url, data: params, options: Options(method: method, headers: headers));
+
       getUserToken(identifier);
     } catch (e) {
       if (kDebugMode) print(e);

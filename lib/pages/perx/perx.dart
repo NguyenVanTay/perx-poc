@@ -78,12 +78,14 @@ class _PerxState extends State<Perx> {
     Map<String, String> params = {
       "identifier": identifier,
       "joined_at": DateTime.now().toIso8601String(),
+
     };
+
     Map<String, String> headers = {"Authorization": "Bearer $applicationToken"};
 
     try {
       // call API
-      await dio.request(url, data: params, options: Options(method: method, headers: headers));
+      await dio.request(url, data: params, options: Options(method: method, headers: headers,));
       getUserToken("Khoicute");
     } catch (e) {
       if (kDebugMode) print(e);

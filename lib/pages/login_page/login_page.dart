@@ -31,7 +31,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _remember = false.obs;
-  PerxController perxController = PerxController();
+  final perxController = Get.put(PerxController());
   AmityLoginController amityLoginController = AmityLoginController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -194,19 +194,20 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('loggedUser', _phoneNumberController.text);
         }
-
+        // 0000001911
         var userInformation = await Networking.getInstance().getUserInformation(
             _phoneNumberController.text, _passwordController.text);
 
         userInformation = jsonDecode(userInformation);
+        userInformation = userInformation[0];
 
-        var userData = userInformation['Metadata'][0]['Information'];
+
 
         if (userInformation == null) {
           Get.snackbar('Alert', 'Data not found');
         } else {
 
-          await amityLoginController.login(userData['Code'],userData['Description']);
+          await amityLoginController.login(userInformation['Code'].toString().trim(),userInformation['Description'].toString());
           await UserController.getInstance().initAccessToken();
           await ChannelController.initial();
 
@@ -223,14 +224,20 @@ class _LoginPageState extends State<LoginPage> {
           // var perxuser = perxController.createUser(
           //     userAmity!.userId.toString());
 
-          var profile = {
+          await perxController.getApplicationToken();
+
+       dynamic findUserPerx =   perxController.isIdentifierExist(userAmity!.userId.toString());
+       findUserPerx ==1 ? perxController.createUser(userAmity!.userId.toString(),userInformation) :perxController.createUser(userAmity!.userId.toString(),userInformation);
+
+    var profile = {
             'Name': userAmity!.displayName.toString(),
-            // 'Email': 'perxpoc@gmail.com',
+            'Email': userInformation['Email'],
             'Identity': userAmity.id.toString(),
-            'Phone': '+84${userAmity.userId.toString()}',
-            'Gender': 'Male',
+            'Phone': '+84${userInformation['Mobile']}',
+            'Gender': userInformation['Gender']=='Male'?"M":"F",
             'DOB': '06-06-1999',
-            "Address": userData['Address'],
+            "Address": userInformation['Address'],
+
             "MSG-push": true,
             "MSG-whatsapp": true,
             "MSG-sms": true,
@@ -238,13 +245,15 @@ class _LoginPageState extends State<LoginPage> {
           };
           print("AmityID And Clevertap Identity: ${userAmity.id.toString()}");
           CleverTapPlugin.onUserLogin(profile);
+          CleverTapPlugin.setLocation(double.parse(userInformation['Latitude']),double.parse(userInformation['Longitude']));
 
           var eventData = {
             // Key:    Value
-            'event': 'Flutter Login',
+            'event': 'Mobile Login',
             // 'Device': 'Android',
             'Time': DateFormat("dd-MM-yyyy").format(DateTime.now()).toString()
           };
+          CleverTapPlugin.recordEvent("Perx Login", eventData);
           CleverTapPlugin.recordEvent("Amity Login", eventData);
 
 
@@ -252,9 +261,7 @@ class _LoginPageState extends State<LoginPage> {
           CleverTapPlugin.createNotificationChannel(
               "10", "text notification", "notification test cleverTap.", 3,
               true);
-          await perxController.getApplicationToken();
 
-          perxController.isIdentifierExist(userAmity!.userId.toString());
 
           // print(await DataBucket.getInstance().getCustomerList());
           // ignore: use_build_context_synchronously

@@ -34,19 +34,19 @@ class Networking {
     // if (_userName == '' || _password == '' || _host == '') {
     //   throw Exception('Networking props error!');
     // }
-    Map body ={
-      "PhoneNumber":phoneNumber,
-      "Password":password,
-    };
+    // Map body ={
+    //   "PhoneNumber":phoneNumber,
+    //   "Password":password,
+    // };
 
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
 
-    final response = await http.post(
-        Uri.parse(
-            '$_host/DogsPark/hs/DogsPark2/V1/User'),
-        headers: requestHeaders,body: jsonEncode(body));
+
+
+    final response = await http.get(
+        Uri.parse('$_host/PerX/hs/PerX/V1/AllUser?Code=$phoneNumber'));
 
     if (response.statusCode == 200) {
       return response.body;
