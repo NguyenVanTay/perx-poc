@@ -1,7 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-
+import 'package:dogs_park/pages/Yennn/main_page.dart';
+import 'package:http/http.dart';
 import 'package:amity_sdk/amity_sdk.dart';
 import 'package:dogs_park/pages/login_page/controller/amity_login_controller.dart';
 import 'package:dogs_park/pages/login_page/controller/perx_controller.dart';
@@ -43,131 +44,114 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     CleverTapPlugin.enableDeviceNetworkInfoReporting(true);
     return Scaffold(
-      body: SafeArea(
+      resizeToAvoidBottomInset: false,
+       body:SafeArea (
           child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: Dimens.maxWidth_007, top: Dimens.maxHeight_005),
-                  child: Text(
-                    Dimens.welcome,
-                    style: AppTextStyle.welcomeText,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: Dimens.maxWidth_007, bottom: Dimens.maxHeight_001),
-                  child: Text(
-                    Dimens.back,
-                    style: AppTextStyle.welcomeText,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: Dimens.maxWidth_007),
-                child: const Text(Dimens.continueSignIn,
-                    style: AppTextStyle.continueSighInText)),
-            SizedBox(height: Dimens.maxHeight_003),
-            CustomTextField(
-              fieldName: Dimens.phoneNumber,
-              controllerName: _phoneNumberController,
-              enabled: true,
-            ),
-            CustomTextField_Obscure(
-                fieldName: Dimens.passWord,
-                controllerName: _passwordController),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: Dimens.maxWidth_007,
-                  vertical: Dimens.maxHeight_0005),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height:MediaQuery.of(context).size.height ,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 children: [
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        (() => Checkbox(
-                              value: _remember.value,
-                              shape: const CircleBorder(),
-                              onChanged: (checked) {
-                                _remember.value = checked ?? false;
-                              },
-                              checkColor: AppColors.white,
-                              activeColor: AppColors.purple,
-                            )),
+                      Padding(
+                        padding: EdgeInsets.only(
+                             top: Dimens.maxHeight_005),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Login",
+                            style:TextStyle(color: Colors.green,fontWeight: FontWeight.bold,fontSize: 27,fontFamily: "SF Pro Display"),
+                            // textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
-                      const Text(
-                        Dimens.remenberMe,
-                        style: AppTextStyle.remenberMeText,
+                      SizedBox(height: Dimens.maxHeight_003),
+                      CustomTextField(
+                        fieldName: Dimens.phoneNumber,
+                        controllerName: _phoneNumberController,
+                        enabled: true,
                       ),
+                      CustomTextField_Obscure(
+                          fieldName: Dimens.passWord,
+                          controllerName: _passwordController),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.maxWidth_007,
+                            vertical: Dimens.maxHeight_0005),
+                        child:   TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            Dimens.forgotPass,
+                            style: TextStyle(
+                              fontSize: Dimens.textSize_15,
+                              color: Colors.green,
+                              fontFamily: Dimens.fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+
+
                     ],
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      Dimens.forgotPass,
-                      style: AppTextStyle.forgotPassText,
-                    ),
-                  ),
                 ],
               ),
-            ),
-            GestureDetector(
-              onTap: () => _signInHandler(),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: Dimens.maxWidth_007,
-                    vertical: Dimens.maxHeight_0005),
-                child: Container(
-                  width: Dimens.screenWidth,
-                  padding: const EdgeInsets.all(Dimens.padding_20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimens.border_8),
-                    color: AppColors.primary,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      Dimens.signIn,
-                      style: AppTextStyle.titleMedium,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: Dimens.maxWidth_005),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  const Text(Dimens.notHaveAccount,
-                      style: AppTextStyle.notHaveAccountText),
-                  TextButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const SignUpUserPage()));
-                      Get.to(SignUpUserPage());
-                    },
-                    child: const Text(
-                      Dimens.signUp,
-                      style: AppTextStyle.signUpText,
+                  Divider(color: Colors.grey,thickness: 1,),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom:42,top: 12 ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.arrow_back_ios_new,size: 12,color: Colors.green,),
+                            Text("Back",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.green),),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () => _signInHandler(),
+                          child: Container(
+                            height: 32,
+                            width: 65,
+                            // padding: const EdgeInsets.all(Dimens.padding_20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(Dimens.border_8),
+                              color: Colors.green,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Sign in",
+                                 style:TextStyle(
+                                   fontSize: 12,
+                                   color: AppColors.white,
+                                   fontFamily: Dimens.fontFamily,
+                                   fontWeight: FontWeight.bold,
+                                 ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )),
+      ),
+       ),
     );
   }
 
@@ -226,13 +210,9 @@ class _LoginPageState extends State<LoginPage> {
 
           await perxController.getApplicationToken();
 
-          dynamic findUserPerx =
-              perxController.isIdentifierExist(userAmity!.userId.toString());
-          findUserPerx == 1
-              ? perxController.createUser(
-                  userAmity!.userId.toString(), userInformation)
-              : perxController.createUser(
-                  userAmity!.userId.toString(), userInformation);
+
+             await perxController.isIdentifierExist(userAmity!.userId.toString(),userInformation);
+
 
           var profile = {
             'Name': userAmity!.displayName.toString(),
@@ -266,9 +246,12 @@ class _LoginPageState extends State<LoginPage> {
           CleverTapPlugin.createNotificationChannel("10", "text notification",
               "notification test cleverTap.", 3, true);
 
+
+
+
           // print(await DataBucket.getInstance().getCustomerList());
           // ignore: use_build_context_synchronously
-          navigateTo(context, const UserApp());
+          navigateTo(context, const MainPage());
         }
       }
     }

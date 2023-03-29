@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 
 class PerxController extends GetxController {
   // API
+  RxBool isLoading = true.obs;
   Dio dio = Dio();
+  String? userId;
   String? userToken;
   String? applicationToken;
 
@@ -27,33 +29,39 @@ class PerxController extends GetxController {
 
       // Assign application token
       applicationToken = response.data['access_token'];
+      print("Acess Token: $applicationToken");
     } catch (e) {
       if (kDebugMode) print(e);
     }
   }
 
-  Future<void> isIdentifierExist(
-    String identifier,
-  ) async {
-    String url = "${dotenv.get("PERX_HOST")}/v4/pos/user_accounts/search";
+  Future<void> isIdentifierExist(String identifier, var userData) async {
+    String url = "${dotenv.get("PERX_HOST")}/v4/pos/user_accounts/search?identifier=$identifier";
     String method = "GET";
-    Map<String, String> params = {
-      "identifier": identifier,
+    // Map<String, String> params = {
+    //   "identifier": identifier,
+    // };
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${applicationToken!.toString()}'
     };
-    Map<String, String> headers = {"Authorization": "Bearer $applicationToken"};
 
     try {
       // call API
-      var response = await dio.request(
-        url,
-        queryParameters: params,
+      var response = await dio.request(url,
         options: Options(method: method, headers: headers),
       );
 
+
       // code = 1 -> user not found
-      return response.data['code'];
+      userId =identifier;
+      response.data['code'] == 1
+          ? createUser(identifier, userData)
+          : createUser(identifier,userData);
     } catch (e) {
-      if (kDebugMode) print('error: $e');
+
+
+      if (kDebugMode) createUser(identifier, userData);
       return;
     }
   }
@@ -86,6 +94,11 @@ class PerxController extends GetxController {
     }
   }
 
+  // Future<void> hihi() async {
+  //   await getApplicationToken();
+  //   isIdentifierExist();
+  // }
+
   Future<void> getUserToken(String identifier) async {
     String url = "${dotenv.get("PERX_HOST")}/v4/oauth/token";
     String method = "POST";
@@ -104,10 +117,66 @@ class PerxController extends GetxController {
       // Assign user token
       userToken = response.data['access_token'];
 
+      isLoading.value = false;
+      userId =identifier;
+      print("User Token: $userToken");
       // setState
 
     } catch (e) {
       if (kDebugMode) print(e);
     }
   }
+
+
+  Future<void> issueLoyalty() async {
+    String url = "${dotenv.get("PERX_HOST")}/v4/pos/loyalty_transactions";
+
+    String method = "POST";
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${applicationToken!.toString()}'
+    };
+
+
+    Map<String, dynamic> params = {
+      "user_account": {
+        "identifier": "$userId"
+      },
+      "properties": {},
+      "points": 100,
+      "loyalty_program_id": 1
+    };
+
+
+    try {
+      // call API
+      var response = await dio.request(url, data: params, options: Options(method: method,headers: headers));
+
+      // Assign user token
+      var data = response.data;
+      if(response.data['data']['transacted_at']!=null){
+        print("issue Loyalty called success");
+      }
+
+
+
+      // isLoading.value = false;
+
+      // print("User Token: $userToken");
+      // setState
+
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
+
+
+  }
+
+
+
+
+
+
+
 }

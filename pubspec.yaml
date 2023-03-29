@@ -73,7 +73,7 @@ dependencies:
   
 #  extended_image: ^6.2.1
   flutter_bloc: ^8.1.1
-  http: 
+  http: ^0.13.5 
   webview_flutter: ^3.0.4
   video_player: ^2.4.7
   flutter_html: ^3.0.0-alpha.5

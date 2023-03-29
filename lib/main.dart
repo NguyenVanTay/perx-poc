@@ -86,7 +86,25 @@ class _UserAppState extends State<UserApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Login Success'),
+        child: Container(
+          width:double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orangeAccent,Colors.pink]
+            )
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('Login Success'),
+              ElevatedButton(onPressed: (){Get.offAll(LoginPage());}, child: const Text("Log Out")),
+              ElevatedButton(onPressed: ()=>Get.to(const Perx()), child: const Text("Get a voucher")),
+              ElevatedButton(onPressed: (){}, child: const Text("Send event to Clevertap")),
+            ],
+          ),
+        ),
       ),
     );
   }

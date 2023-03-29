@@ -15,22 +15,25 @@ class _CampaignItemState extends State<CampaignItem> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: Image.network(
-        // find image have type = 'banner campaign'
-        widget.campaign.images!.isNotEmpty
-            ? widget.campaign.images!
-                .firstWhere(
-                  (element) => element.type == 'campaign_banner',
-                  orElse: () => PerxImage(
-                    url:
-                        "https://via.placeholder.com/1280x720.png?text=Campaign+banner+not+found",
-                  ),
-                )
-                .url!
-            : "https://via.placeholder.com/1280x720.png?text=Campaign+banner+not+found",
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(28.0),
+        child: Image.network(
+          // find image have type = 'banner campaign'
+          widget.campaign.images!.isNotEmpty
+              ? widget.campaign.images!
+                  .firstWhere(
+                    (element) => element.type == 'campaign_thumbnail',
+                    orElse: () => PerxImage(
+                      url:
+                          "https://via.placeholder.com/1280x720.png?text=Campaign+banner+not+found",
+                    ),
+                  )
+                  .url!
+              : "https://via.placeholder.com/1280x720.png?text=Campaign+banner+not+found",
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
       ),
     );
   }

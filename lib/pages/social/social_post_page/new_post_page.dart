@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animations/fade_animation.dart';
 import 'package:animation_wrappers/animations/faded_slide_animation.dart';
+import 'package:dogs_park/pages/login_page/controller/perx_controller.dart';
 import 'package:dogs_park/pages/social/components/video_player.dart';
 import 'package:dogs_park/pages/social/controller/create_post_controller.dart';
 import 'package:dogs_park/theme/colors.dart';
@@ -23,6 +24,7 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   NewPostController newPostCtrl = NewPostController();
+  final perxController = Get.put(PerxController());
   @override
   void initState() {
     // TODO: implement initState
@@ -189,6 +191,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if(newPostCtrl.textEditingController.value.text=="#ilove1c"){
+                          perxController.issueLoyalty();
+                    }
                     await newPostCtrl.createPost(context);
 
                     print('Create text');

@@ -42,9 +42,10 @@ class _HomeFeedPageState extends State<HomeFeedPage> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
-            'Social Page',
-            style: AppTextStyle.titleLarge,
+            'Community',
+             style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.blueAccent),
           ),
           actions: [
             IconButton(
@@ -78,8 +79,7 @@ class _HomeFeedPageState extends State<HomeFeedPage> {
                 ? ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: feedController.getAmityPosts().map((e) {
-                      print("Length: " +
-                          feedController.getAmityPosts().length.toString());
+                      print("Length: ${feedController.getAmityPosts().length}");
                       return FeedPost(
                         post: e,
                         onPostDeleteHandler: () async {

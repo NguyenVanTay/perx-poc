@@ -79,7 +79,7 @@ class LoyaltyInfo extends StatelessWidget {
               ),
             ),
             Text(
-              "Your points: ${loyalty.currentPoints} points",
+              "Your points: ${loyalty.pointsBalance} points",
               style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w500,

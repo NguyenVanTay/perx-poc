@@ -102,7 +102,7 @@ class _FeedPostState extends State<FeedPost> {
                                         radius: Dimens.radius_8,
                                         backgroundColor: Colors.transparent,
                                         backgroundImage:
-                                            AssetImage("images/Loc.png")),
+                                            AssetImage("images/jisoo.jpeg")),
                               ))),
                       title: Wrap(
                         children: [
