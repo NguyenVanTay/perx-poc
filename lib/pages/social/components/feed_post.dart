@@ -102,7 +102,7 @@ class _FeedPostState extends State<FeedPost> {
                                         radius: Dimens.radius_8,
                                         backgroundColor: Colors.transparent,
                                         backgroundImage:
-                                            AssetImage("images/jisoo.jpeg")),
+                                            AssetImage("images/avatar_community.jpg")),
                               ))),
                       title: Wrap(
                         children: [
@@ -356,7 +356,7 @@ class _FeedPostState extends State<FeedPost> {
                                               Icon(
                                                 Icons.thumb_up,
                                                 color: _liked.value
-                                                    ? AppColors.primary
+                                                    ? Colors.green
                                                     : AppColors.gray,
                                                 size: 20,
                                               ),
@@ -364,7 +364,7 @@ class _FeedPostState extends State<FeedPost> {
                                                 ' Like',
                                                 style: TextStyle(
                                                     color: _liked.value
-                                                        ? AppColors.primary
+                                                        ? Colors.green
                                                         : AppColors.gray,
                                                     fontSize: 17,
                                                     letterSpacing: 1),

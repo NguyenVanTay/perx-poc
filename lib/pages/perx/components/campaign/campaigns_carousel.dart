@@ -114,7 +114,7 @@ class _CampaignsCarouselState extends State<CampaignsCarousel> {
                                 ),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.white.withOpacity(
+                                  color: Colors.black.withOpacity(
                                     currentIndexCarousel == entry.key ? 0.6 : 0.2,
                                   ),
                                 ),

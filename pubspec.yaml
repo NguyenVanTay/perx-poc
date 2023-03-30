@@ -129,6 +129,10 @@ flutter:
     - images/golden3.jpg
     - images/samoyed1.jpg
     - images/dog_default.jpg
+    - images/avatar_community.jpg
+    - images/command.png
+    - images/home.png
+    - images/market.png
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

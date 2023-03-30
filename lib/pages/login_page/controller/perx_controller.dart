@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clevertap_plugin/clevertap_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -156,6 +157,7 @@ class PerxController extends GetxController {
       // Assign user token
       var data = response.data;
       if(response.data['data']['transacted_at']!=null){
+        CleverTapPlugin.recordEvent("Issue Loyalty", params);
         print("issue Loyalty called success");
       }
 

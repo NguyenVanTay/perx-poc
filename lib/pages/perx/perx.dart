@@ -22,6 +22,7 @@ class _PerxState extends State<Perx> {
   final Color badgesColor = Colors.green;
 
   final perxController = Get.put(PerxController());
+
   // loading screen when have not get user token, otherwise render screen
   // bool isLoading = true;
 
@@ -133,46 +134,24 @@ class _PerxState extends State<Perx> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-    Scaffold(
+    return Obx(
+      () => Scaffold(
         // showSearch in appbar
         appBar: AppBar(
-          // back button, scan QR code
-          leading: IconButton(
-            icon: Icon(Icons.adaptive.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          title: const Text(
+            "Perx-VPBS",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.qr_code_scanner_rounded),
-              onPressed: () {
-                if (kDebugMode) print("Khoicute");
-              },
-            ),
-          ],
-          title: TextField(
-            decoration: const InputDecoration(
-              hintText: 'Search promotions',
-              hintStyle: TextStyle(color: Colors.white),
-              border: InputBorder.none,
-              icon: Icon(Icons.search_rounded, color: Colors.white),
-            ),
-            style: const TextStyle(color: Colors.white),
-            cursorColor: Colors.white,
-            onTap: () {
-              if (kDebugMode) print("Khoicute");
-            },
-          ),
+          centerTitle: true,
         ),
         body: perxController.isLoading.value
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
+          physics: ScrollPhysics(),
                 child: Column(
                   children: [
                     LoyaltySection(userToken: perxController.userToken!),
-
                     CampaignsCarousel(userToken: perxController.userToken!),
                     RewardList(userToken: perxController.userToken!),
                   ],

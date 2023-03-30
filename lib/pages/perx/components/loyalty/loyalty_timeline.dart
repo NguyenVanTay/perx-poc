@@ -51,8 +51,8 @@ class LoyaltyTimeline extends StatelessWidget {
           indicatorBuilder: (context, index) {
             return Container(
               constraints: const BoxConstraints(
-                minWidth: 32,
-                minHeight: 32,
+                minWidth: 38,
+                minHeight: 38,
               ),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,

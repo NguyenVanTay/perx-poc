@@ -2,6 +2,7 @@ import 'package:animation_wrappers/animations/faded_slide_animation.dart';
 
 import 'package:dogs_park/pages/social/components/feed_post.dart';
 import 'package:dogs_park/pages/social/controller/feed_controller.dart';
+import 'package:dogs_park/pages/social/social_notification_page/notification_page.dart';
 import 'package:dogs_park/pages/social/social_post_page/new_post_page.dart';
 
 import 'package:dogs_park/theme/colors.dart';
@@ -21,7 +22,7 @@ class HomeFeedPage extends StatefulWidget {
 }
 
 class _HomeFeedPageState extends State<HomeFeedPage> {
-  FeedController feedController = FeedController();
+  FeedController feedController = Get.put(FeedController());
 
   @override
   void dispose() {
@@ -41,29 +42,6 @@ class _HomeFeedPageState extends State<HomeFeedPage> {
       length: 5,
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Community',
-             style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.blueAccent),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.to(ChatsPage());
-                },
-                icon: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.lightgray),
-                  child: const Icon(
-                    Icons.message,
-                    size: 20,
-                    color: AppColors.primary,
-                  ),
-                ))
-          ],
-        ),
         body: RefreshIndicator(
           color: theme.primaryColor,
           onRefresh: () async {
@@ -77,18 +55,17 @@ class _HomeFeedPageState extends State<HomeFeedPage> {
             slideCurve: Curves.linearToEaseOut,
             child: Obx(() => feedController.postLength.value >= 0
                 ? ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: feedController.getAmityPosts().map((e) {
-                      print("Length: ${feedController.getAmityPosts().length}");
-                      return FeedPost(
-                        post: e,
-                        onPostDeleteHandler: () async {
-                          await feedController.initAmityGlobalfeed();
-                          // feedController.deletePost(e, postIndex)
-                        },
-                      );
-                    }).toList(),
-                  )
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: feedController.getAmityPosts().map((e) {
+                return FeedPost(
+                  post: e,
+                  onPostDeleteHandler: () async {
+                    await feedController.initAmityGlobalfeed();
+                    // feedController.deletePost(e, postIndex)
+                  },
+                );
+              }).toList(),
+            )
                 : const SizedBox()),
           ),
         ),
@@ -97,11 +74,12 @@ class _HomeFeedPageState extends State<HomeFeedPage> {
           width: 40,
           child: FittedBox(
             child: FloatingActionButton(
-                backgroundColor: AppColors.primary,
+                backgroundColor: Colors.green,
                 child: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                onPressed: () async {
+                  await Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const NewPostScreen()));
+                  await feedController.initAmityGlobalfeed();
                 }),
           ),
         ),

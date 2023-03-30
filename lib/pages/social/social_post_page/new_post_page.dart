@@ -41,7 +41,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       elevation: 0,
       title: Text('Create Post',
           style:
-              theme.textTheme.headline6!.copyWith(fontWeight: FontWeight.w500)),
+          TextStyle(color: Colors.green,fontSize: 24,fontWeight: FontWeight.bold)),
       leading: IconButton(
         icon: Icon(
           Icons.chevron_left,
@@ -56,168 +56,170 @@ class _NewPostScreenState extends State<NewPostScreen> {
       appBar: myAppbar,
       body: SafeArea(
           child: SingleChildScrollView(
-        child: FadedSlideAnimation(
-          beginOffset: Offset(0, 0.3),
-          endOffset: Offset(0, 0),
-          slideCurve: Curves.linearToEaseOut,
-          child: Container(
-            color: AppColors.white,
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Align(
-                    alignment: Alignment.topLeft,
-                    child: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircleAvatar(
-                          radius: Dimens.radius_8,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage:
-                              AssetImage(Images.defaultAvatarImage)),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Obx(
-                        () => TextField(
-                          controller: newPostCtrl.textEditingController.value,
-                          scrollPhysics: NeverScrollableScrollPhysics(),
-                          maxLines: null,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Write Something To Post",
-                          ),
-                          style: AppTextStyle.daycareConfirmInfo1
-                              .copyWith(color: Colors.grey),
-                        ),
-                      ),
-                      Obx(() => newPostCtrl.amityImageLength > 0
-                          ? Container(
-                              height: 300,
-                              child: GridView.count(
-                                crossAxisSpacing: 10,
-                                crossAxisCount: 4,
-                                children: newPostCtrl.amityImages
-                                    .map((e) => Container(
-                                          child: Image.network(
-                                            e.fileInfo!.fileUrl,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            )
-                          : const SizedBox()),
-                      Obx(() => (newPostCtrl.isVideoChosen.value)
-                          ? (newPostCtrl.amityVideo.isComplete)
-                              ? LocalVideoPlayer(
-                                  file: newPostCtrl.amityVideo.file!,
-                                )
-                              : CircularProgressIndicator()
-                          : Container()),
-                      // Obx(
-                      //   () => (newPostCtrl.amityVideo.value != null &&
-                      //           newPostCtrl.amityVideo.value.isBlank == true)
-                      //       ? ((newPostCtrl.amityVideo!.value.isComplete)
-                      //           ? LocalVideoPlayer(
-                      //               file: newPostCtrl.amityVideo!.value.file!,
-                      //             )
-                      //           : CircularProgressIndicator())
-                      //       : const SizedBox(),
-                      // ),
-                    ],
-                  ),
-                ),
-                Row(
+            child: FadedSlideAnimation(
+              beginOffset: Offset(0, 0.3),
+              endOffset: Offset(0, 0),
+              slideCurve: Curves.linearToEaseOut,
+              child: Container(
+                color: AppColors.white,
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        await newPostCtrl.addVideo();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.amity_lightGrey,
-                          borderRadius: BorderRadius.circular(10),
+                    const Align(
+                        alignment: Alignment.topLeft,
+                        child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircleAvatar(
+                              radius: Dimens.radius_8,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage:
+                              AssetImage("images/avatar_community.jpg")
+                          ),
                         ),
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
-                        child: FaIcon(
-                          FontAwesomeIcons.video,
-                          color: AppColors.primary,
-                          size: 20.0,
-                        ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Obx(
+                                () => TextField(
+                              controller: newPostCtrl.textEditingController.value,
+                              scrollPhysics: NeverScrollableScrollPhysics(),
+                              maxLines: null,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Write Something To Post",
+                              ),
+                              style: AppTextStyle.daycareConfirmInfo1
+                                  .copyWith(color: Colors.grey),
+                            ),
+                          ),
+                          Obx(() => newPostCtrl.amityImageLength > 0
+                              ? Container(
+                            height: 300,
+                            child: GridView.count(
+                              crossAxisSpacing: 10,
+                              crossAxisCount: 4,
+                              children: newPostCtrl.amityImages
+                                  .map((e) => Container(
+                                child: Image.network(
+                                  e.fileInfo!.fileUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              ))
+                                  .toList(),
+                            ),
+                          )
+                              : const SizedBox()),
+                          Obx(() => (newPostCtrl.isVideoChosen.value)
+                              ? (newPostCtrl.amityVideo.isComplete)
+                              ? LocalVideoPlayer(
+                            file: newPostCtrl.amityVideo.file!,
+                          )
+                              : CircularProgressIndicator()
+                              : Container()),
+                          // Obx(
+                          //   () => (newPostCtrl.amityVideo.value != null &&
+                          //           newPostCtrl.amityVideo.value.isBlank == true)
+                          //       ? ((newPostCtrl.amityVideo!.value.isComplete)
+                          //           ? LocalVideoPlayer(
+                          //               file: newPostCtrl.amityVideo!.value.file!,
+                          //             )
+                          //           : CircularProgressIndicator())
+                          //       : const SizedBox(),
+                          // ),
+                        ],
                       ),
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await newPostCtrl.addVideo();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.amity_lightGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            child: FaIcon(
+                              FontAwesomeIcons.video,
+                              color: Colors.green,
+                              size: 20.0,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await newPostCtrl.addFiles();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.amity_lightGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            child: Icon(
+                              Icons.photo,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await newPostCtrl.addFileFromCamera();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.amity_lightGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     GestureDetector(
                       onTap: () async {
-                        await newPostCtrl.addFiles();
+                        if(newPostCtrl.textEditingController.value.text=="#ilove1c"){
+                          perxController.issueLoyalty();
+                        }
+                        await newPostCtrl.createPost(context);
+
+                        print('Create text');
+                        Navigator.of(context).pop();
                       },
                       child: Container(
+                        margin: EdgeInsets.only(top: 15),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         decoration: BoxDecoration(
-                          color: AppColors.amity_lightGrey,
+                          color: Colors.green,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
-                        child: Icon(
-                          Icons.photo,
-                          color: AppColors.primary,
+                        child: Text(
+                          "Submit Post",
+                          style: theme.textTheme.button,
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        await newPostCtrl.addFileFromCamera();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.amity_lightGrey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
+                    )
                   ],
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    if(newPostCtrl.textEditingController.value.text=="#ilove1c"){
-                          perxController.issueLoyalty();
-                    }
-                    await newPostCtrl.createPost(context);
-
-                    print('Create text');
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 15),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      color: theme.primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      "Submit Post",
-                      style: theme.textTheme.button,
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      )),
+          )),
     );
   }
 }

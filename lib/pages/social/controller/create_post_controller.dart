@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:amity_sdk/amity_sdk.dart';
+import 'package:clevertap_plugin/clevertap_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:optimized_cached_image/optimized_cached_image.dart';
+import 'package:provider/provider.dart';
 
+import '../../social_pages/provider/ViewModel/feed_viewmodel.dart';
 import '../components/alert_dialog.dart';
 
 class AmityFileInfoWithUploadStatus {
@@ -229,6 +232,11 @@ class NewPostController extends GetxController {
   Future<void> createPost(BuildContext context, {String? communityId}) async {
     HapticFeedback.heavyImpact();
     bool isCommunity = (communityId != null) ? true : false;
+    Map<String,dynamic> data = {
+      "Community ID":communityId,
+      "Post content": textEditingController.value.text
+    };
+    CleverTapPlugin.recordEvent("Amity feed post", data);
     print("Create post");
     if (isCommunity) {
       if (isNotSelectVideoYet() && isNotSelectedImageYet()) {
