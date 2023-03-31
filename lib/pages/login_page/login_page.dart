@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Divider(color: Colors.grey,thickness: 1,),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom:100,top: 12 ),
+                    padding: EdgeInsets.only(left: 16.0,right: 16.0,bottom:MediaQuery.of(context).size.height*0.06,top: 12 ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,

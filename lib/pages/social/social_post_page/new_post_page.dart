@@ -197,7 +197,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           perxController.issueLoyalty();
                         }
                         await newPostCtrl.createPost(context);
-
                         print('Create text');
                         Navigator.of(context).pop();
                       },
