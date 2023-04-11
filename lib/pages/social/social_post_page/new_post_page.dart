@@ -1,12 +1,10 @@
-import 'package:animation_wrappers/animations/fade_animation.dart';
 import 'package:animation_wrappers/animations/faded_slide_animation.dart';
+import 'package:dogs_park/controllers/admin_controller.dart';
 import 'package:dogs_park/pages/login_page/controller/perx_controller.dart';
 import 'package:dogs_park/pages/social/components/video_player.dart';
 import 'package:dogs_park/pages/social/controller/create_post_controller.dart';
 import 'package:dogs_park/theme/colors.dart';
 import 'package:dogs_park/theme/dimens.dart';
-import 'package:dogs_park/theme/images.dart';
-import 'package:dogs_park/utils/networking.dart';
 import 'package:dogs_park/widgets/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +22,7 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   NewPostController newPostCtrl = NewPostController();
+  final adminController = Get.put(AdminController());
   final perxController = Get.put(PerxController());
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     final myAppbar = AppBar(
       backgroundColor: AppColors.white,
       elevation: 0,
-      title: Text('Create Post',
+      title: const Text('Create Post',
           style:
           TextStyle(color: Colors.green,fontSize: 24,fontWeight: FontWeight.bold)),
       leading: IconButton(
@@ -57,12 +56,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
             child: FadedSlideAnimation(
-              beginOffset: Offset(0, 0.3),
-              endOffset: Offset(0, 0),
+              beginOffset: const Offset(0, 0.3),
+              endOffset: const Offset(0, 0),
               slideCurve: Curves.linearToEaseOut,
               child: Container(
                 color: AppColors.white,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -88,7 +87,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           Obx(
                                 () => TextField(
                               controller: newPostCtrl.textEditingController.value,
-                              scrollPhysics: NeverScrollableScrollPhysics(),
+                              scrollPhysics: const NeverScrollableScrollPhysics(),
                               maxLines: null,
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -120,7 +119,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               ? LocalVideoPlayer(
                             file: newPostCtrl.amityVideo.file!,
                           )
-                              : CircularProgressIndicator()
+                              : const CircularProgressIndicator()
                               : Container()),
                           // Obx(
                           //   () => (newPostCtrl.amityVideo.value != null &&
@@ -146,9 +145,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               color: AppColors.amity_lightGrey,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
-                            child: FaIcon(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            child: const FaIcon(
                               FontAwesomeIcons.video,
                               color: Colors.green,
                               size: 20.0,
@@ -164,9 +163,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               color: AppColors.amity_lightGrey,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
-                            child: Icon(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            child: const Icon(
                               Icons.photo,
                               color: Colors.green,
                             ),
@@ -181,8 +180,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               color: AppColors.amity_lightGrey,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.fromLTRB(5, 0, 10, 5),
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.fromLTRB(5, 0, 10, 5),
                             child: const Icon(
                               Icons.camera_alt,
                               color: Colors.green,
@@ -193,17 +192,18 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if(newPostCtrl.textEditingController.value.text=="#ilove1c"){
-                          perxController.issueLoyalty();
+                        if(newPostCtrl.textEditingController.value.text==adminController.amityPostCondition.value){
+                          // perxController.issueLoyalty();
+                          perxController.triggerPerx();
                         }
                         await newPostCtrl.createPost(context);
                         print('Create text');
                         Navigator.of(context).pop();
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 15),
+                        margin: const EdgeInsets.only(top: 15),
                         alignment: Alignment.center,
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         decoration: BoxDecoration(
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(10),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clevertap_plugin/clevertap_plugin.dart';
 import 'package:dio/dio.dart';
+import 'package:dogs_park/controllers/admin_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ class PerxController extends GetxController {
   String? userId;
   String? userToken;
   String? applicationToken;
+  final adminController = Get.put(AdminController());
 
   Future<void> getApplicationToken() async {
     String url = "${dotenv.get("PERX_HOST")}/v4/oauth/token";
@@ -145,7 +147,7 @@ class PerxController extends GetxController {
         "identifier": "$userId"
       },
       "properties": {},
-      "points": 100,
+      "points": adminController.pointPerx.value == 0 ? 50:adminController.pointPerx.value ,
       "loyalty_program_id": 1
     };
 
@@ -159,6 +161,50 @@ class PerxController extends GetxController {
       if(response.data['data']['transacted_at']!=null){
         CleverTapPlugin.recordEvent("Issue Loyalty", params);
         print("issue Loyalty called success");
+      }
+
+
+
+      // isLoading.value = false;
+
+      // print("User Token: $userToken");
+      // setState
+
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
+
+
+  }
+
+  Future<void> triggerPerx() async {
+    String url = "${dotenv.get("PERX_HOST")}/v4/pos/triggers";
+
+    String method = "POST";
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${applicationToken!.toString()}'
+    };
+
+
+    Map<String, dynamic> params = {
+
+        "uuid": "53341f92-a38a-485f-95f1-6257a1e366d3",
+        "identifier": "$userId"
+
+    };
+
+
+    try {
+      // call API
+      var response = await dio.request(url, data: params, options: Options(method: method,headers: headers));
+
+      // Assign user token
+      var data = response.data;
+      if(response.statusCode==200){
+        CleverTapPlugin.recordEvent("Trigger Perx Used", params);
+        print("Trigger Perx Used");
       }
 
 

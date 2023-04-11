@@ -31,7 +31,7 @@ class _LoyaltySectionState extends State<LoyaltySection> {
     Map<String, String> params = {};
     Map<String, String> header = {"Authorization": "Bearer ${widget.userToken}"};
 
-    try {
+
       // Call API
       Response response = await dio.request(url, data: params, options: Options(method: method, headers: header));
 
@@ -44,11 +44,8 @@ class _LoyaltySectionState extends State<LoyaltySection> {
       // Set state
       isLoading = false;
       setState(() {});
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+
+    var a=1;
   }
 
   @override

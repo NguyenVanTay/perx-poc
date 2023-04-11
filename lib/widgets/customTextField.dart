@@ -1,7 +1,10 @@
 // ignore: file_names
 import 'package:dogs_park/theme/colors.dart';
 import 'package:dogs_park/widgets/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../theme/dimens.dart';
 
@@ -11,11 +14,14 @@ class CustomTextField extends StatefulWidget {
   TextEditingController controllerName;
   bool? enabled;
   bool? bold;
+  TextInputType?  textInputType;
+
   CustomTextField(
       {Key? key,
       this.fieldName = "",
       required this.controllerName,
       this.enabled = false,
+      this.textInputType = TextInputType.text,
       this.bold = true})
       : super(key: key);
 
@@ -41,6 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         child: Padding(
           padding: const EdgeInsets.only(left: Dimens.padding_20),
           child: TextField(
+            keyboardType:widget.textInputType ,
             controller: controllername,
             enabled: enabled,
             style: bold == true

@@ -11,6 +11,7 @@ import '../../main.dart';
 import '../login_page/controller/amity_login_controller.dart';
 import '../social/community/community_feed_screen.dart';
 import '../social/social_home_page/home_feed_page.dart';
+import 'admin_page.dart';
 import 'other_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _MainPageState extends State<MainPage> {
     const HomeFeedPage(),
     const OtherPage(),
     const MarketPage(),
+    const AdminPage(),
   ];
 
   @override
@@ -51,6 +53,7 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(icon: Icon(Icons.group), label: "Community"),
             BottomNavigationBarItem(icon: Icon(Icons.content_paste_search_outlined), label: "Command"),
             BottomNavigationBarItem(icon: Icon(Icons.area_chart_rounded), label: "Market Place"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Administrator"),
           ],
           currentIndex: mainPageController.selectedIndex.value,
           //  selectedFontSize: 20,
